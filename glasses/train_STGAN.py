@@ -21,13 +21,13 @@ tf.reset_default_graph()
 # build graph
 with tf.device(opt.GPUdevice):
 	# ------ define input data ------
-	imageRealData = tf.placeholder(tf.float32,shape=[opt.batchSize,opt.dataH,opt.dataW,3])
-	imageBGfakeData = tf.placeholder(tf.float32,shape=[opt.batchSize,opt.dataH,opt.dataW,3])
-	imageFGfake = tf.placeholder(tf.float32,shape=[opt.batchSize,opt.H,opt.W,4])
-	PH = [imageBGfakeData,imageRealData,imageFGfake]
+	imageRealData = tf.placeholder(tf.float32, shape=[opt.batchSize, opt.dataH, opt.dataW, 3])
+	imageBGfakeData = tf.placeholder(tf.float32, shape=[opt.batchSize, opt.dataH, opt.dataW, 3])
+	imageFGfake = tf.placeholder(tf.float32, shape=[opt.batchSize, opt.H, opt.W, 4])
+	PH = [imageBGfakeData, imageRealData, imageFGfake]
 	# ------ generate perturbation ------
-	imageReal = data.perturbBG(opt,imageRealData)
-	imageBGfake = data.perturbBG(opt,imageBGfakeData)
+	imageReal = data.perturbBG(opt, imageRealData)
+	imageBGfake = data.perturbBG(opt, imageBGfakeData)
 	pPertFG = opt.pertFG*tf.random_normal([opt.batchSize,opt.warpDim])
 	# ------ define GP and D ------
 	geometric = graph.geometric_multires

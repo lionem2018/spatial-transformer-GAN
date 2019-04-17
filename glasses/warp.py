@@ -2,48 +2,59 @@ import numpy as np
 import scipy.linalg
 import tensorflow as tf
 
-# fit (affine) warp between two sets of points 
-def fit(Xsrc,Xdst):
+
+# fit (affine) warp between two sets of points
+# 두 세트의 점 사이의 휘어짐 (아핀)
+def fit(Xsrc, Xdst):
 	ptsN = len(Xsrc)
-	X,Y,U,V,O,I = Xsrc[:,0],Xsrc[:,1],Xdst[:,0],Xdst[:,1],np.zeros([ptsN]),np.ones([ptsN])
-	A = np.concatenate((np.stack([X,Y,I,O,O,O],axis=1),
-						np.stack([O,O,O,X,Y,I],axis=1)),axis=0)
-	b = np.concatenate((U,V),axis=0)
-	p1,p2,p3,p4,p5,p6 = scipy.linalg.lstsq(A,b)[0].squeeze()
-	pMtrx = np.array([[p1,p2,p3],[p4,p5,p6],[0,0,1]],dtype=np.float32)
+	X, Y, U, V, O, I = Xsrc[:, 0], Xsrc[:, 1], Xdst[:, 0], Xdst[:, 1], np.zeros([ptsN]), np.ones([ptsN])
+	A = np.concatenate((np.stack([X, Y, I, O, O, O], axis=1),
+						np.stack([O, O, O, X, Y, I], axis=1)), axis=0)
+	b = np.concatenate((U, V), axis=0)
+	# scipy.linalg.lstsq(): 최소자승문제, https://datascienceschool.net/view-notebook/927d7f7972dd434ead9d294169ae7f34/
+	# squeeze: Remove single-dimensional entries from the shape of an array.
+	p1, p2, p3, p4, p5, p6 = scipy.linalg.lstsq(A, b)[0].squeeze()
+	pMtrx = np.array([[p1, p2, p3], [p4, p5, p6], [0, 0, 1]], dtype=np.float32)
 	return pMtrx
 
-# compute composition of warp parameters
-def compose(opt,p,dp):
-	return p+dp
 
 # compute composition of warp parameters
+# 합성(+) 연산
+def compose(opt, p, dp):
+	return p+dp
+
+
+# compute composition of warp parameters
+# 부호 반전 연산
 def inverse(opt,p):
 	return -p
 
+
 # convert warp parameters to matrix
-def vec2mtrx(opt,p):
+# 왜곡 매개 변수를 행렬로 변환(벡터 -> 행렬)
+def vec2mtrx(opt, p):
 	with tf.name_scope("vec2mtrx"):
-		if opt.warpType=="homography":
-			p1,p2,p3,p4,p5,p6,p7,p8 = tf.unstack(p,axis=1)
-			A = tf.transpose(tf.stack([[p3,p2,p1],[p6,-p3-p7,p5],[p4,p8,p7]]),perm=[2,0,1])
+		if opt.warpType == "homography":
+			p1, p2, p3, p4, p5, p6, p7, p8 = tf.unstack(p, axis=1)
+			A = tf.transpose(tf.stack([[p3, p2, p1], [p6, -p3-p7, p5], [p4, p8, p7]]), perm=[2, 0, 1])
 		elif opt.warpType=="affine":
 			O = tf.zeros([opt.batchSize])
-			p1,p2,p3,p4,p5,p6 = tf.unstack(p,axis=1)
-			A = tf.transpose(tf.stack([[p1,p2,p3],[p4,p5,p6],[O,O,O]]),perm=[2,0,1])
+			p1, p2, p3, p4, p5, p6 = tf.unstack(p, axis=1)
+			A = tf.transpose(tf.stack([[p1, p2, p3], [p4, p5, p6], [O, O, O]]), perm=[2, 0, 1])
 		else: assert(False)
 		# matrix exponential
-		pMtrx = tf.tile(tf.expand_dims(tf.eye(3),axis=0),[opt.batchSize,1,1])
-		numer = tf.tile(tf.expand_dims(tf.eye(3),axis=0),[opt.batchSize,1,1])
+		pMtrx = tf.tile(tf.expand_dims(tf.eye(3), axis=0), [opt.batchSize, 1, 1])
+		numer = tf.tile(tf.expand_dims(tf.eye(3), axis=0), [opt.batchSize, 1, 1])
 		denom = 1.0
-		for i in range(1,opt.warpApprox):
-			numer = tf.matmul(numer,A)
+		for i in range(1, opt.warpApprox):
+			numer = tf.matmul(numer, A)
 			denom *= i
 			pMtrx += numer/denom
 	return pMtrx
 
+
 # warp the image
-def transformImage(opt,image,pMtrx):
+def transformImage(opt, image, pMtrx):
 	with tf.name_scope("transformImage"):
 		refMtrx = tf.tile(tf.expand_dims(opt.refMtrx,axis=0),[opt.batchSize,1,1])
 		transMtrx = tf.matmul(refMtrx,pMtrx)
@@ -85,8 +96,9 @@ def transformImage(opt,image,pMtrx):
 		imageWarp = imageUL+imageUR+imageBL+imageBR
 	return imageWarp
 
+
 # warp the image
-def transformCropImage(opt,image,pMtrx):
+def transformCropImage(opt, image, pMtrx):
 	with tf.name_scope("transformImage"):
 		refMtrx = tf.tile(tf.expand_dims(opt.refMtrx_b,axis=0),[opt.batchSize,1,1])
 		transMtrx = tf.matmul(refMtrx,pMtrx)
