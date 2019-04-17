@@ -1,7 +1,9 @@
 import numpy as np
 import scipy.misc
+import os
 
-celebA_path = "/home/chenhsuan/adobe/celebA"
+SCRIPT_PATH = os.path.dirname(os.path.abspath(__file__))
+celebA_path = os.path.join(SCRIPT_PATH, "CelebA")
 output_path = "dataset"
 
 part_dict = {}
