@@ -88,6 +88,8 @@ def makeBatchEval(opt, testImage, glasses, PH):
 	# 배치 사이즈만큼의 1차원 배열 생성 0, 1, 2, ..., batchSize-1
 	idxG = np.arange(opt.batchSize)
 
+	print(idxG)
+
 	# put data in placeholders
 	[imageBG, imageFG] = PH
 
