@@ -39,6 +39,7 @@ def set(training):
 		parser.add_argument("--pertFG",		type=float,	default=0.0,	help="scale of initial perturbation (glasses)")
 		parser.add_argument("--pertBG",		type=float,	default=0.0,	help="scale of initial perturbation (face)")
 		parser.add_argument("--loadImage",				default=None,	help="load image to test")
+		parser.add_argument("--fgImage", 				default=None,   help="load foreground to test")
 
 	opt = parser.parse_args()
 

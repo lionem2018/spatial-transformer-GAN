@@ -21,6 +21,7 @@ with tf.device(opt.GPUdevice):
 	imageBG = tf.placeholder(tf.float32,shape=[opt.batchSize,opt.H,opt.W,3])
 	imageFG = tf.placeholder(tf.float32,shape=[opt.batchSize,opt.H,opt.W,4])
 	PH = [imageBG,imageFG]
+	FgImgPath = opt.fgImage
 	pPertFG = opt.pertFG*tf.random_normal([opt.batchSize,opt.warpDim])
 	# ------ define GP and D ------
 	geometric = graph.geometric_multires
@@ -38,7 +39,7 @@ with tf.device(opt.GPUdevice):
 # load data
 print(util.toMagenta("loading test data..."))
 path = "dataset"
-glasses = np.load("{0}/glasses.npy".format(path))
+glasses = np.load("{0}/{1}".format(path, FgImgPath))
 
 # prepare model saver/summary writer
 saver_GP = tf.train.Saver(var_list=varsGP)
