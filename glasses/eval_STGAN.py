@@ -38,7 +38,8 @@ with tf.device(opt.GPUdevice):
 
 # load data
 print(util.toMagenta("loading test data..."))
-path = "dataset"
+main_folder = "/content/gdrive/My Drive/Colab Notebooks/spatial-transformer-GAN/glasses/"
+path = main_folder + "dataset"
 glasses = np.load("{0}/{1}".format(path, FgImgPath))
 
 # prepare model saver/summary writer

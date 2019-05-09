@@ -13,7 +13,8 @@ def load(opt, test=False):
 	:return: 데이터셋이 담긴 디렉토리
 	"""
 	# 불러올 디렉토리 경로 설정
-	path = "dataset"
+	main_folder = "/content/gdrive/My Drive/Colab Notebooks/spatial-transformer-GAN/glasses/"
+	path = main_folder + "dataset"
 	# 테스트 데이터셋를 불러와야 한다면,
 	# if test:
 		# 테스트 이미지 데이터가 담긴 .npy 파일 불러오기
