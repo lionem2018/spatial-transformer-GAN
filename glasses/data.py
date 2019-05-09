@@ -15,24 +15,24 @@ def load(opt, test=False):
 	# 불러올 디렉토리 경로 설정
 	path = "dataset"
 	# 테스트 데이터셋를 불러와야 한다면,
-	if test:
+	# if test:
 		# 테스트 이미지 데이터가 담긴 .npy 파일 불러오기
-		images = np.load("{0}/image_test.npy".format(path))
+	images = np.load("{0}/image_test.npy".format(path))
 		# 안경 유무 속성정보 불러오기
-		hasGlasses = np.load("{0}/attribute_test.npy".format(path))[:, 15]
-	# 학습 데이터셋을 불러와야 한다면,
-	else:
-		# 학습 이미지 데이터가 담긴 .npy 파일 불러오기
-		images = np.load("{0}/image_train.npy".format(path))
-		# 안경 유무 속성 정보 불러오기
-		hasGlasses = np.load("{0}/attribute_train.npy".format(path))[:, 15]
+	hasGlasses = np.load("{0}/attribute_test.npy".format(path))[:, 35]
+	# # 학습 데이터셋을 불러와야 한다면,
+	# else:
+	# 	# 학습 이미지 데이터가 담긴 .npy 파일 불러오기
+	# 	images = np.load("{0}/image_train.npy".format(path))
+	# 	# 안경 유무 속성 정보 불러오기
+	# 	hasGlasses = np.load("{0}/attribute_train.npy".format(path))[:, 15]
 
 	# 안경 유무에 따라 이미지 데이터셋 나누기
 	images_0 = images[~hasGlasses]
 	images_1 = images[hasGlasses]
 
 	# 안경 데이터셋 불러오기
-	glasses = np.load("{0}/glasses.npy".format(path))
+	glasses = np.load("{0}/earring.npy".format(path))
 
 	# 디렉토리 생성
 	D = {
