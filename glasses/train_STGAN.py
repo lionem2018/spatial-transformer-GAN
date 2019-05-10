@@ -14,7 +14,8 @@ import options
 opt = options.set(training=True)
 
 # create directories for model output
-os.makedirs("models_{0}".format(opt.group),exist_ok=True)
+main_folder = "/content/gdrive/My Drive/Colab Notebooks/spatial-transformer-GAN/glasses/"
+os.makedirs(main_folder + "models_{0}".format(opt.group),exist_ok=True)
 
 print(util.toMagenta("building graph..."))
 tf.reset_default_graph()
