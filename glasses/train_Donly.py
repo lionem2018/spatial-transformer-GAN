@@ -80,7 +80,7 @@ trainData = data.load(opt)
 
 # prepare model saver/summary writer
 saver_D = tf.train.Saver(var_list=varsD,max_to_keep=20)
-summaryWriter = tf.summary.FileWriter("summary_{0}/{1}".format(opt.group,opt.name))
+summaryWriter = tf.summary.FileWriter(main_folder + "summary_{0}/{1}".format(opt.group,opt.name))
 
 print(util.toYellow("======= TRAINING START ======="))
 timeStart = time.time()

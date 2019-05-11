@@ -100,7 +100,7 @@ if opt.warpN>1:
 		varsGPdict["/".join(scopes)] = v
 	saver_GPcur = tf.train.Saver(varsGPdict)
 else: saver_GPcur = tf.train.Saver(var_list=varsGPcur)
-summaryWriter = tf.summary.FileWriter("summary_{0}/{1}".format(opt.group,opt.name))
+summaryWriter = tf.summary.FileWriter(main_folder + "summary_{0}/{1}".format(opt.group,opt.name))
 
 print(util.toYellow("======= TRAINING START ======="))
 timeStart = time.time()
