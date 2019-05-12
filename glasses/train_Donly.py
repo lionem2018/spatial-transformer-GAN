@@ -75,8 +75,8 @@ with tf.device(opt.GPUdevice):
 # load data
 print(util.toMagenta("loading training data..."))
 trainData = data.load(opt)
-print(util.toMagenta("loading test data..."))
-testData = data.load(opt,test=True)
+# print(util.toMagenta("loading test data..."))
+# testData = data.load(opt,test=True)
 
 # prepare model saver/summary writer
 saver_D = tf.train.Saver(var_list=varsD,max_to_keep=20)
@@ -118,19 +118,19 @@ with tf.Session(config=tfConfig) as sess:
 						util.toRed("X"),
 						util.toRed("{0:.4f}".format(ld)),
 						util.toBlue("{0:.4f}".format(gdn))))
-		if (i+1)%20==0:
-			runList = [summaryLossTrain,summaryGradTrain]
-			sl,sg = sess.run(runList,feed_dict=batch)
-			summaryWriter.add_summary(sl,i+1)
-			summaryWriter.add_summary(sg,i+1)
-		if (i+1)%200==0:
-			si = sess.run(summaryImageTrain,feed_dict=batch)
-			summaryWriter.add_summary(si,i+1)
-		if (i+1)%500==0:
-			# run on test set
-			batch = data.makeBatch(opt,testData,PH)
-			si = sess.run(summaryImageTest,feed_dict=batch)
-			summaryWriter.add_summary(si,i+1)
+		# if (i+1)%20==0:
+		# 	runList = [summaryLossTrain,summaryGradTrain]
+		# 	sl,sg = sess.run(runList,feed_dict=batch)
+		# 	summaryWriter.add_summary(sl,i+1)
+		# 	summaryWriter.add_summary(sg,i+1)
+		# if (i+1)%200==0:
+		# 	si = sess.run(summaryImageTrain,feed_dict=batch)
+		# 	summaryWriter.add_summary(si,i+1)
+		# if (i+1)%500==0:
+		# 	# run on test set
+		# 	batch = data.makeBatch(opt,testData,PH)
+		# 	si = sess.run(summaryImageTest,feed_dict=batch)
+		# 	summaryWriter.add_summary(si,i+1)
 		if (i+1)%1000==0:
 			# save model
 			util.saveModel(opt,sess,saver_D,"D",i+1)
