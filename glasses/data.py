@@ -37,6 +37,9 @@ def load(opt, test=False):
 	# 귀걸이 착용 유무 속성정보 불러오기
 	hasGlasses = np.load("{0}/attribute_test.npy".format(path))[:, 35]
 
+	images_0 = images[~hasGlasses]
+	images_1 = images[hasGlasses]
+	
 	# 안경 데이터셋 불러오기
 	glasses = np.load("{0}/earring.npy".format(path))
 
