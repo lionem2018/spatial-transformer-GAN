@@ -39,7 +39,7 @@ def load(opt, test=False):
 
 	images_0 = images[~hasGlasses]
 	images_1 = images[hasGlasses]
-	
+
 	# 안경 데이터셋 불러오기
 	glasses = np.load("{0}/earring.npy".format(path))
 

@@ -131,7 +131,7 @@ with tf.Session(config=tfConfig) as sess:
 		# 	batch = data.makeBatch(opt,testData,PH)
 		# 	si = sess.run(summaryImageTest,feed_dict=batch)
 		# 	summaryWriter.add_summary(si,i+1)
-		if (i+1)%1000==0:
+		if (i+1)%2000==0:
 			# save model
 			util.saveModel(opt,sess,saver_D,"D",i+1)
 			print(util.toGreen("model saved: {0}/{1}, it.{2}".format(opt.group,opt.name,i+1)))
