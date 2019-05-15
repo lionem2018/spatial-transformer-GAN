@@ -15,7 +15,7 @@ def load(opt, test=False):
 	# 불러올 디렉토리 경로 설정
 	main_folder = "/content/gdrive/My Drive/Colab Notebooks/spatial-transformer-GAN/glasses/"
 	path = main_folder + "dataset"
-	"""
+	
 	# 테스트 데이터셋를 불러와야 한다면,
 	if test:
 		# 테스트 이미지 데이터가 담긴 .npy 파일 불러오기
@@ -39,7 +39,9 @@ def load(opt, test=False):
 
 	images_0 = images[~hasGlasses]
 	images_1 = images[hasGlasses]
-
+	
+	"""
+	
 	# 안경 데이터셋 불러오기
 	glasses = np.load("{0}/earring.npy".format(path))
 
