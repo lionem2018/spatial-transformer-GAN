@@ -173,7 +173,7 @@ with tf.Session(config=tfConfig) as sess:
 		# 	batch = data.makeBatch(opt,testData,PH)
 		# 	si = sess.run(summaryImageTest,feed_dict=batch)
 		# 	summaryWriter.add_summary(si,(opt.warpN-1)*opt.toIt+i+1)
-		if (i+1)%2000==0:
+		if (i+1)%10000 == 0:
 			# save model
 			util.saveModel(opt,sess,saver_GP,"GP",i+1)
 			util.saveModel(opt,sess,saver_D,"D",i+1)
