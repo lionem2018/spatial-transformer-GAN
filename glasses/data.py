@@ -28,8 +28,8 @@ def load(opt, test=False):
 
 	# 학습 데이터셋을 불러와야 한다면,
 	else:
-		images_0 = np.load("{0}/not_wearing_earring_test.npy".format(path))  # 귀걸이 안 낀 이미지 npy 파일
-		images_1 = np.load("{0}/earring_image_test.npy".format(path))  # 귀걸이 낀 이미지 npy 파일
+		images_0 = np.vstack(np.load("{0}/not_wearing_earing_test_0.npy".format(path)), np.load("{0}/not_wearing_earing_test_1.npy".format(path)))  # 귀걸이 안 낀 이미지 npy 파일
+		images_1 = np.vstack(np.load("{0}/earing_image_test_0.npy".format(path)), np.load("{0}/earing_image_test_1.npy".format(path)))  # 귀걸이 낀 이미지 npy 파일
 	"""
 
 	# 테스트 이미지 데이터가 담긴 .npy 파일 불러오기
