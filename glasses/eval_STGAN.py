@@ -58,6 +58,8 @@ with tf.Session(config=tfConfig) as sess:
 	# create directories for test image output
 	os.makedirs("eval_{0}".format(opt.loadGP),exist_ok=True)
 	testImage = util.imread(opt.loadImage)
+	if testImage.shape[2] == 4:
+		testImage = testImage[:, :, :3]
 	batch = data.makeBatchEval(opt,testImage,glasses,PH)
 	runList = [imageCompAll[0],imageCompAll[-1]]
 	ic0,icf = sess.run(runList,feed_dict=batch)
