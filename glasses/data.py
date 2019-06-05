@@ -47,7 +47,7 @@ def load(opt, test=False):
 	"""
 	
 	# 안경 데이터셋 불러오기
-	glasses = np.load("{0}/earring.npy".format(path))
+	glasses = np.load("{0}/earring_train.npy".format(path))
 
 	# 디렉토리 생성
 	D = {
